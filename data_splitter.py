@@ -32,5 +32,5 @@ def split_data(init_data_folder, train_size=550, valid_size=120, test_size=400):
 
 
 if __name__ == '__main__':
-    init_data_folder = './dataset/'
+    init_data_folder = '../dataset/'
     split_data(init_data_folder)
