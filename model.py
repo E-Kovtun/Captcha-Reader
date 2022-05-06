@@ -38,9 +38,3 @@ class CaptchaNet(nn.Module):
         x = self.linear2(x) # [batch_size, captcha_len, num_classes]
 
         return x
-
-
-if __name__ == '__main__':
-    input_tensor = torch.rand(1, 3, 50, 200)
-    out = CaptchaNet()(input_tensor)
-    print(out.shape)

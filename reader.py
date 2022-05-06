@@ -7,8 +7,8 @@ from utils.metrics import all_symbols
 
 
 class CaptchaReader(Dataset):
-    def __init__(self, prepared_data_folder, dataset_folder):
-        self.dataset_path = os.path.join(prepared_data_folder, dataset_folder)
+    def __init__(self, dataset_path):
+        self.dataset_path = dataset_path
         self.dataset_images = os.listdir(self.dataset_path)
 
     def __len__(self):

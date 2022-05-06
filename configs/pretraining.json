@@ -1,0 +1,13 @@
+{
+    "train_path": "../synthetic_datasets/train_synthetic",
+    "valid_path": "../synthetic_datasets/valid_synthetic",
+    "num_epochs": 600,
+    "batch_size": 32,
+    "dataloader_num_workers": 2,
+    "optimizer_lr": 1e-5,
+    "weight_decay": 1e-4,
+    "scheduler_factor": 0.5,
+    "scheduler_patience": 4,
+    "early_stopping_patience": 10,
+    "checkpoint_name": "pretrain_checkpoint.pt"
+}

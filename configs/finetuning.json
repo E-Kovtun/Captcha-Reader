@@ -1,0 +1,14 @@
+{
+    "train_path": "../prepared_datasets/train_dataset",
+    "valid_path": "../prepared_datasets/valid_dataset",
+    "num_epochs": 600,
+    "batch_size": 8,
+    "dataloader_num_workers": 2,
+    "optimizer_lr": 2e-4,
+    "weight_decay": 1e-4,
+    "scheduler_factor": 0.2,
+    "scheduler_patience": 4,
+    "early_stopping_patience": 10,
+    "checkpoint_name": "finetune_checkpoint.pt",
+    "pretrained_checkpoint_name": "resnet18_synthetic_checkpoint.pt"
+}

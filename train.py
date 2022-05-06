@@ -7,34 +7,37 @@ from torch.utils.data import DataLoader
 from utils.earlystopping import EarlyStopping
 from utils.metrics import captcha_len, num_classes, captcha_accuracy
 from tqdm import tqdm
+import json
+import sys
 
 
-def train_net(prepared_data_folder, train_folder, valid_folder,
+def train_net(train_path, valid_path,
               num_epochs, batch_size, dataloader_num_workers,
-              optimizer_lr, weight_decay, scheduler_factor, scheduler_patience, early_stopping_patience):
-    model_name = 'resnet18_synthetic'
+              optimizer_lr, scheduler_factor, scheduler_patience, early_stopping_patience,
+              checkpoint_name, pretrained_checkpoint_name=None):
     results_folder = './results/'
     os.makedirs(results_folder, exist_ok=True)
-    checkpoint = os.path.join(results_folder, f'{model_name}_checkpoint.pt')
+    checkpoint = os.path.join(results_folder, checkpoint_name)
 
     if torch.cuda.is_available():
         device = torch.device('cuda:0')
     else:
         device = torch.device('cpu')
 
-    train_dataset = CaptchaReader(prepared_data_folder, train_folder)
-    valid_dataset = CaptchaReader(prepared_data_folder, valid_folder)
-    # test_dataset = CaptchaReader(prepared_data_folder, test_folder)
+    train_dataset = CaptchaReader(train_path)
+    valid_dataset = CaptchaReader(valid_path)
 
     net = CaptchaNet().to(device)
+    if pretrained_checkpoint_name:
+        net.load_state_dict(torch.load(f'./results/{pretrained_checkpoint_name}', map_location=device))
+
     cross_entropy_loss = nn.CrossEntropyLoss(reduction='sum')
 
-    optimizer = torch.optim.Adam(net.parameters(), lr=optimizer_lr, weight_decay=weight_decay)
+    optimizer = torch.optim.Adam(net.parameters(), lr=optimizer_lr)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=scheduler_factor, patience=scheduler_patience)
 
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=dataloader_num_workers)
     valid_dataloader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=True, num_workers=dataloader_num_workers)
-    # test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=dataloader_num_workers)
 
     early_stopping = EarlyStopping(patience=early_stopping_patience, verbose=True, path=checkpoint)
 
@@ -75,48 +78,25 @@ def train_net(prepared_data_folder, train_folder, valid_folder,
             print('Early stopping')
             break
 
-#----------------------------------------------
-    # net = CaptchaNet().to(device)
-    #
-    # net.load_state_dict(torch.load(checkpoint, map_location=device))
-    # net.train(False)
-    # print('Testing...')
-    #
-    # all_predictions = []
-    # all_gt = []
-    # for batch_images, batch_targets in test_dataloader:
-    #     batch_images, batch_target = batch_images.to(device), batch_targets.to(device)
-    #     output = net(batch_images)
-    #     predicted_classes = torch.argmax(output, dim=2)
-    #     all_predictions.extend(predicted_classes.detach().cpu().tolist())
-    #     all_gt.extend(batch_targets.detach().cpu().tolist())
-    #
-    # test_acc = captcha_accuracy(all_predictions, all_gt)
-    # print(f'Test Accuracy {test_acc}')
-
 
 if __name__ == '__main__':
-    # prepared_data_folder = './prepared_datasets/'
-    # train_folder = 'train_dataset'
-    # valid_folder = 'valid_dataset'
-    # test_folder = 'test_dataset'
+    if sys.argv[1] == 'pretrain':
+        with open('./configs/pretraining.json') as json_file:
+            parameters_dict = json.load(json_file)
+        train_net(parameters_dict["train_path"], parameters_dict["valid_path"],
+                  parameters_dict["num_epochs"], parameters_dict["batch_size"], parameters_dict["dataloader_num_workers"],
+                  parameters_dict["optimizer_lr"], parameters_dict["scheduler_factor"],
+                  parameters_dict["scheduler_patience"], parameters_dict["early_stopping_patience"],
+                  parameters_dict["checkpoint_name"])
 
-    prepared_data_folder = './synthetic_datasets/'
-    train_folder = 'train_synthetic'
-    valid_folder = 'valid_synthetic'
+    elif sys.argv[1] == 'finetune':
+        with open('./configs/finetuning.json') as json_file:
+            parameters_dict = json.load(json_file)
+        train_net(parameters_dict["train_path"], parameters_dict["valid_path"],
+                  parameters_dict["num_epochs"], parameters_dict["batch_size"], parameters_dict["dataloader_num_workers"],
+                  parameters_dict["optimizer_lr"], parameters_dict["scheduler_factor"],
+                  parameters_dict["scheduler_patience"], parameters_dict["early_stopping_patience"],
+                  parameters_dict["checkpoint_name"], parameters_dict["pretrained_checkpoint_name"])
 
-    num_epochs = 600
-    batch_size = 32
-    dataloader_num_workers = 2
-
-    optimizer_lr = 1e-3
-    weight_decay = 1e-5
-
-    scheduler_factor = 0.6
-    scheduler_patience = 4
-
-    early_stopping_patience = 10
-
-    train_net(prepared_data_folder, train_folder, valid_folder,
-              num_epochs, batch_size, dataloader_num_workers,
-              optimizer_lr, weight_decay, scheduler_factor, scheduler_patience, early_stopping_patience)
+    else:
+        print('Incorrect regime name')
