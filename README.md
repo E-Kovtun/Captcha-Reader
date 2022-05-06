@@ -26,4 +26,26 @@ Alternatively, you can run the script that downloads already prepared datasets:
 
  ```bash scripts/download_prepared_datasets.sh```
  
+ # 3. Generating synthetic captcha dataset
+ There are too few captcha images in the inital dataset to train an effictive model. Thus, we will generate synthetic captcha images for the model pretraining. For this, run:
+ 
+ ```python3 generate_synthetic_captcha.py```
+ 
+ This python script will create the folders: `../synthetic_datasets/train_synthetic/` and `../synthetic_datasets/valid_synthetic/` with 100.000 and 10.000 synthetic images correspondingly. 
+ 
+ Alternatively, you can download alreade negerated images with the command:
+ 
+ ```bash scripts/download_synthetic_datasets.sh```
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
