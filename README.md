@@ -21,6 +21,8 @@ This python script will create the folders `../prepared_datasets/train_dataset/`
 * Valid size: 120 images
 * Test size: 400 images
 
+Also, this script will save file `./symbols.txt` with all unique symbols that are encountered in captcha images in the original dataset. 
+
 Alternatively, you can run the script that downloads already prepared datasets:
 
  ```bash scripts/download_prepared_datasets.sh```
@@ -60,6 +62,15 @@ In order to download the model checkpoints and not train the model from scratch,
 As a result, in a folder `./results/` you will have `resnet18_synthetic_checkpoint.pt` - checkpoint for pretrained model and `resnet18_finetuned_checkpoint.pt` - final checkpoint of finetuned model. 
  
  # 5. Evaluate model
+ 
+ There are two ways to test the model.
+ 
+ The first one is to give captcha image path and the final checpoint path to the test file anf look what the trained model will predict. To do this, run python script in a following way:
+ 
+ ```python3 test.py ../prepared_datasets/test_dataset/2bg48.png .results/resnet18_finetuned_checkpoint.pt```
+ 
+ where `../prepared_datasets/test_dataset/2bg48.png` - path to test captcha image and `.results/resnet18_finetuned_checkpoint.pt` - path to final model chckpoint. The predicted symbols are printed in a console and saved as json file in `results/predicted_symbols.json`. 
+
  
  
  
