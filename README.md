@@ -12,7 +12,18 @@ The following command will download the dataset in the folder `../dataset/`:
 ``` bash scripts/download_init_dataset.sh```
 
 # 2. Splitting dataset
-To split the dataset in train, validation, and test sets run the command:
+To split the dataset into train, validation, and test sets run the command:
 
 ```python3 data_splitter.py```
+
+This python script will create the folders `../prepared_datasets/train_dataset/`, `../prepared_datasets/valid_dataset/`, and `../prepared_datasets/test_dataset/`. 
+
+* Train size: 550 images
+* Valid size: 120 images
+* Test size: 400 images
+
+Alternatively, you can run the script that downloads already prepared datasets:
+
+ ```bash scripts/download_prepared_datasets.sh```
+ 
 
