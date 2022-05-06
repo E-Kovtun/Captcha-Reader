@@ -33,7 +33,7 @@ Alternatively, you can run the script that downloads already prepared datasets:
  
  This python script will create the folders: `../synthetic_datasets/train_synthetic/` and `../synthetic_datasets/valid_synthetic/` with 100.000 and 10.000 synthetic images correspondingly. 
  
- Alternatively, you can download alreade negerated images with the command:
+ Alternatively, you can download already generated images with the command:
  
  ```bash scripts/download_synthetic_datasets.sh```
  
