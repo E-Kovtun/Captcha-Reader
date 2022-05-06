@@ -10,7 +10,7 @@ The following command will download the dataset in the folder `../dataset/`:
 
 ``` bash scripts/download_init_dataset.sh```
 
-# 2. Splitting dataset
+# 2. Split dataset
 To split the dataset into train, validation, and test sets run the command:
 
 ```python3 data_splitter.py```
@@ -27,7 +27,7 @@ Alternatively, you can run the script that downloads already prepared datasets:
 
  ```bash scripts/download_prepared_datasets.sh```
  
- # 3. Generating synthetic captcha dataset
+ # 3. Generate synthetic captcha dataset
  There are too few captcha images in the inital dataset to train an effictive model. Thus, we will generate synthetic captcha images for the model pretraining. For this, run:
  
  ```python3 generate_synthetic_captcha.py```
@@ -63,23 +63,20 @@ As a result, in a folder `./results/` you will have `resnet18_synthetic_checkpoi
  
  # 5. Evaluate model
  
- There are two ways to test the model.
+ There are two ways to evaluate the model:
  
- The first one is to give captcha image path and the final checpoint path to the test file anf look what the trained model will predict. To do this, run python script in a following way:
+ 1. Give captcha image path and the final checkpoint path to the test file anf look at what the trained model will predict. To do this, run python script in a following way:
  
- ```python3 test.py ../prepared_datasets/test_dataset/2bg48.png .results/resnet18_finetuned_checkpoint.pt```
+ ```python3 test.py ../prepared_datasets/test_dataset/2bg48.png ./results/resnet18_finetuned_checkpoint.pt```
  
- where `../prepared_datasets/test_dataset/2bg48.png` - path to test captcha image and `.results/resnet18_finetuned_checkpoint.pt` - path to final model chckpoint. The predicted symbols are printed in a console and saved as json file in `results/predicted_symbols.json`. 
-
+ where `../prepared_datasets/test_dataset/2bg48.png` - path to test captcha image and `.results/resnet18_finetuned_checkpoint.pt` - path to final model chckpoint. The predicted symbols are printed in a console and saved as json file in `./results/predicted_symbols.json`. 
  
+ 2. Get accuracy on a test set. For this, run:
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
-
+  ```python3 test.py ../prepared_datasets/test_dataset/ ./results/resnet18_finetuned_checkpoint.pt```
+  
+  where `../prepared_datasets/test_dataset/` - path to folder with test dataset and `.results/resnet18_finetuned_checkpoint.pt` - path to final model chckpoint. The test accuracy will be printed in a console and saved as json file in `./results/test_metric.json`. 
+  
+  For the checkpoint `resnet18_finetuned_checkpoint.pt` we get the best accuracy on a test set equal to:
+  
+  **Test Accuracy = 0.9775**
