@@ -67,13 +67,13 @@ As a result, in a folder `./results/` you will have `resnet18_synthetic_checkpoi
  
  There are two ways to evaluate the model:
  
- 1. Give captcha image path and the final checkpoint path to the test file anf look at what the trained model will predict. To do this, run python script in a following way:
+ **1.** Give captcha image path and the final checkpoint path to the test file anf look at what the trained model will predict. To do this, run python script in a following way:
  
  ```python3 test.py ../prepared_datasets/test_dataset/2bg48.png ./results/resnet18_finetuned_checkpoint.pt```
  
  where `../prepared_datasets/test_dataset/2bg48.png` - path to test captcha image and `.results/resnet18_finetuned_checkpoint.pt` - path to final model chckpoint. The predicted symbols are printed in a console and saved as json file in `./results/predicted_symbols.json`. 
  
- 2. Get accuracy on a test set. For this, run:
+ **2.** Get accuracy on a test set. For this, run:
  
   ```python3 test.py ../prepared_datasets/test_dataset/ ./results/resnet18_finetuned_checkpoint.pt```
   
