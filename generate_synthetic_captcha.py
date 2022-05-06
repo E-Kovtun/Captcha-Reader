@@ -6,7 +6,7 @@ from PIL import ImageFont, ImageDraw, Image
 import cv2 as cv
 
 
-def generate_captcha_images(train_num_images=100000, valid_num_images=10000, synthetic_folder='synthetic_datasets'):
+def generate_captcha_images(train_num_images=100000, valid_num_images=10000, synthetic_folder='../synthetic_datasets'):
     back = [[192 + i]*(3 + int(i <= 19)) for i in range(0, 60)]
     back = np.array([item for sublist in back for item in sublist])
     background = np.repeat(np.tile(back, (img_h, 1))[:, :, None], 3, axis=2).astype(np.uint8)
