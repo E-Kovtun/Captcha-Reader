@@ -21,7 +21,7 @@ def split_data(init_data_folder, train_size=550, valid_size=120, test_size=400):
     valid = images[train_size:train_size+valid_size]
     test = images[-test_size:]
 
-    prepared_data_folder = './prepared_datasets/'
+    prepared_data_folder = '../prepared_datasets/'
     os.makedirs(os.path.join(prepared_data_folder, 'train_dataset'), exist_ok=True)
     os.makedirs(os.path.join(prepared_data_folder, 'valid_dataset'), exist_ok=True)
     os.makedirs(os.path.join(prepared_data_folder, 'test_dataset'), exist_ok=True)
