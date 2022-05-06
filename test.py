@@ -47,6 +47,7 @@ def test_net(data_path, checkpoint_path):
         net_output = net(tensor_image).argmax(dim=2).squeeze(0).detach().cpu().numpy()
         predicted_symbols = [all_symbols[n] for n in  net_output]
         print('Predicted Symbols:', predicted_symbols)
+        os.makedirs('./results/', exist_ok=True)
         with open('results/predicted_symbols.json', 'w', encoding='utf-8') as f:
             json.dump({'net_predicted_symbols': predicted_symbols}, f)
 
