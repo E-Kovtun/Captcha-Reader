@@ -10,6 +10,8 @@ The following command will download the dataset in the folder `../dataset/`:
 
 ``` bash scripts/download_init_dataset.sh```
 
+(In case of error run `pip install gdown`)
+
 # 2. Split dataset
 To split the dataset into train, validation, and test sets run the command:
 
