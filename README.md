@@ -55,7 +55,7 @@ All parametrs for model finetuning can be changed in `configs/finetuning.json`. 
 
 In order to download the model checkpoints and not train the model from scratch, run: 
 
-```bash scripts/download_checkpoints```
+```bash scripts/download_checkpoints.sh```
 
 As a result, in a folder `./results/` you will have `resnet18_synthetic_checkpoint.pt` - checkpoint for pretrained model and `resnet18_finetuned_checkpoint.pt` - final checkpoint of finetuned model. 
  
